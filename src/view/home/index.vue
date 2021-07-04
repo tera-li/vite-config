@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import imgUrl from '@/assets/home.png'
+import imgUrl from '@/assets/123.png'
 // import { address } from '@/assets/home.json'
 
 export default defineComponent({
@@ -15,7 +15,11 @@ export default defineComponent({
     setup() {
         // const imgQ = new URL('./.png', import.meta.url)
         // console.log(imgQ);
-
+        console.log(import.meta.env.MODE);
+        console.log(import.meta.env.BASE_URL);
+        console.log(import.meta.env.PROD);
+        console.log(import.meta.env.DEV);
+        console.log(import.meta.env.VITE_SOME_KEY);
         return {imgUrl}
     },
 })
