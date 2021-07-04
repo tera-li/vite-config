@@ -28,7 +28,7 @@
   </p>
 
   <button type="button" @click="count++">count is: {{ count }}</button>
-  <p>
+  <p :class="body.c">
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
@@ -46,12 +46,11 @@ export default defineComponent({
     }
   },
   setup: () => {
-    console.log((body as any).c);
     onMounted(() => {
-      // document.getElementsByTagName('p').className = classes.red
+      (document.getElementsByTagName('p') as any)[0].className = (body as any).c
     })
     const count = ref(0)
-    return { count }
+    return { count, body }
   }
 })
 </script>

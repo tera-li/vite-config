@@ -1,21 +1,20 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" /> 
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <router-link to="/about/index">Go to About</router-link>
+    <router-link to="/home">Go to Home</router-link>
+    <router-view></router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld
-  }
 })
 </script>
 
 <style>
+@import url('./index.module.css');
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
