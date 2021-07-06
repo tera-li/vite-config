@@ -6,12 +6,38 @@ const path = require('path')
 export default defineConfig({
   base: './',
   plugins: [vue()],
-  build: {
-    assetsDir: 'img'
-  },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, 'src')
     }
-  }
+  },
+  css: {
+    postcss: {
+      plugins: [
+        require('autoprefixer')
+      ]
+    }
+  },
+  json: {
+    // stringify: true
+  },
+  server: {
+    port: 9527,
+    open: true,
+    https: false,
+    hmr: true,
+    proxy: {
+      '/api': {
+        target: 'https://ocs.sabertrain.com/api/v1',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  },
+  build: {
+    assetsDir: 'assets',
+    outDir: 'dist',
+    target: 'esnext',
+    sourcemap: false,
+  },
 })
