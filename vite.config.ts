@@ -22,10 +22,15 @@ export default defineConfig({
     // stringify: true
   },
   server: {
+    // 端口
     port: 9527,
+    // 自动打开到默认浏览器
     open: true,
+    // 使用https
     https: false,
+    // 热更新
     hmr: true,
+    // cors跨资源共享代理
     proxy: {
       '/api': {
         target: 'https://ocs.sabertrain.com/api/v1',
@@ -34,10 +39,13 @@ export default defineConfig({
       }
     }
   },
+  // 打包配置
   build: {
     assetsDir: 'assets',
+    // 输出目录
     outDir: 'dist',
     target: 'esnext',
+    // 是否输出源码map
     sourcemap: false,
   },
 })
