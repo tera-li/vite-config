@@ -14,6 +14,7 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
+        // 需要指定browsers浏览器版本
         require('autoprefixer')
       ]
     }
