@@ -1,52 +1,29 @@
-<template>
-  <div>
-    <ul>
-      <li v-for="item of list" :key="item">
-        <router-link :to="'/' + item">{{ item }}</router-link>
-      </li>
-    </ul>
-    <router-view v-slot="{ Component }">
-      <transition name="fadeIn">
-        <component :is="Component" :class="Component" />
-      </transition>
-    </router-view>
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent, reactive, toRef } from "vue";
-
-export default defineComponent({
-  name: "App",
-  setup() {
-    const routerList = reactive({
-      list: ["about", "home", "login"],
-    });
-    const list = toRef(routerList, "list");
-    return {
-      list,
-    };
-  },
-});
+<script setup lang="ts">
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
-<style>
-@import url("./index.module.css");
-#app {
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<template>
+  <div>
+    <a href="https://vitejs.dev" target="_blank">
+      <img src="/vite.svg" class="logo" alt="Vite logo" />
+    </a>
+    <a href="https://vuejs.org/" target="_blank">
+      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
+    </a>
+  </div>
+  <HelloWorld msg="Vite + Vue" />
+</template>
+
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
 }
-ul li {
-  list-style: none;
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
 }
-a {
-  text-decoration: none;
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
