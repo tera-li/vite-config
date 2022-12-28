@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { env } from "node:process";
 import autoprefixer from "autoprefixer";
+import { compression } from "vite-plugin-compression2";
+
 import { viteZip } from "vite-plugin-zip-file";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -21,12 +23,23 @@ export default defineConfig({
       zipName: "dist.zip",
       enabled: env.NODE_ENV === "production" ? true : false,
     }),
+    // gzip压缩
+    compression({
+      algorithm: "gzip",
+      // 设置为true，删除源文件
+      deleteOriginalAssets: false,
+      threshold: 500,
+    }),
   ],
   resolve: {
     // 别名解析
     alias: {
       "~": __dirname,
     },
+  },
+  build: {
+    // 压缩模式
+    minify: "esbuild",
   },
   css: {
     postcss: {
