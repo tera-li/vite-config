@@ -3,7 +3,6 @@ import vue from "@vitejs/plugin-vue";
 import { env } from "node:process";
 import autoprefixer from "autoprefixer";
 import { compression } from "vite-plugin-compression2";
-import { viteExternalsPlugin } from "vite-plugin-externals";
 import customPlugin from "./plugins/custom-plugin.js";
 import htmlPlugin from "vite-plugin-html-config";
 
@@ -37,10 +36,6 @@ export default defineConfig({
       threshold: 1000,
     }),
     customPlugin(),
-    // 打包时跳过指定modules，引入的外部 externals
-    viteExternalsPlugin({
-      vue: "Vue",
-    }),
     // 动态生成html script
     htmlPlugin({
       headScripts: [
@@ -102,6 +97,9 @@ export default defineConfig({
     minify: "esbuild",
     // 配置自定义底层的 Rollup 打包配置
     rollupOptions: {
+      // 打包时跳过指定modules，引入的外部 externals
+      external: ["vue"],
+      // build 入口配置
       input: {
         //可以配置多个，表示多入口
         index: path.resolve(__dirname, "index.html"),
