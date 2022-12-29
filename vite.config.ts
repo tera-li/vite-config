@@ -1,19 +1,23 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { env } from "node:process";
 import autoprefixer from "autoprefixer";
 import { compression } from "vite-plugin-compression2";
+import customPlugin from "./plugins/custom-plugin.js";
 
 import { viteZip } from "vite-plugin-zip-file";
 import path from "path";
 import { fileURLToPath } from "url";
+// 获取当前文件目录
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// https://vitejs.dev/config/
-console.log(env.VITE_SOME_KEY);
+// 获取当前环境的配置.env
+const config = loadEnv(env.NODE_ENV, "./");
 
+// https://vitejs.dev/config/
 export default defineConfig({
   // 公共路径，静态资源链接
   base: "./",
+  // 插件
   plugins: [
     vue(),
     // 打包时压缩成.zip
@@ -23,24 +27,23 @@ export default defineConfig({
       zipName: "dist.zip",
       enabled: env.NODE_ENV === "production" ? true : false,
     }),
-    // gzip压缩
-    compression({
-      algorithm: "gzip",
-      // 设置为true，删除源文件
-      deleteOriginalAssets: false,
-      threshold: 500,
-    }),
+    // // gzip压缩
+    // compression({
+    //   algorithm: "gzip",
+    //   // 设置为true，删除源文件
+    //   deleteOriginalAssets: false,
+    //   threshold: 1000,
+    // }),
+    customPlugin(),
   ],
+  // 解析
   resolve: {
     // 别名解析
     alias: {
       "~": __dirname,
     },
   },
-  build: {
-    // 压缩模式
-    minify: "esbuild",
-  },
+  // css处理
   css: {
     postcss: {
       plugins: [
@@ -59,6 +62,7 @@ export default defineConfig({
       ],
     },
   },
+  // 开发环境
   server: {
     // 端口
     port: 5173,
@@ -77,4 +81,22 @@ export default defineConfig({
       },
     },
   },
+  // 打包
+  build: {
+    // 压缩模式
+    minify: "esbuild",
+    // 配置自定义底层的 Rollup 打包配置
+    rollupOptions: {
+      input: {
+        //可以配置多个，表示多入口
+        index: path.resolve(__dirname, "index.html"),
+        project: path.resolve(__dirname, "custom.html"),
+      },
+      output: {
+        // chunkFileNames:'[name]-[hash].js',
+        // entryFileNames:"[name]-[hash].js",
+      },
+    },
+  },
 });
+console.log(__dirname);
