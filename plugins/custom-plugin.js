@@ -3,6 +3,7 @@ const fileRegex = /\.(custom)$/;
 export default () => {
   return {
     name: "transform-file",
+    // 该钩子触发时进行转换
     transform(source, id) {
       // 匹配文件后缀
       if (fileRegex.test(id)) {

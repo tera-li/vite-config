@@ -3,7 +3,9 @@ import vue from "@vitejs/plugin-vue";
 import { env } from "node:process";
 import autoprefixer from "autoprefixer";
 import { compression } from "vite-plugin-compression2";
+import { viteExternalsPlugin } from "vite-plugin-externals";
 import customPlugin from "./plugins/custom-plugin.js";
+import htmlPlugin from "vite-plugin-html-config";
 
 import { viteZip } from "vite-plugin-zip-file";
 import path from "path";
@@ -28,13 +30,26 @@ export default defineConfig({
       enabled: env.NODE_ENV === "production" ? true : false,
     }),
     // // gzip压缩
-    // compression({
-    //   algorithm: "gzip",
-    //   // 设置为true，删除源文件
-    //   deleteOriginalAssets: false,
-    //   threshold: 1000,
-    // }),
+    compression({
+      algorithm: "gzip",
+      // 设置为true，删除源文件
+      deleteOriginalAssets: false,
+      threshold: 1000,
+    }),
     customPlugin(),
+    // 打包时跳过指定modules，引入的外部 externals
+    viteExternalsPlugin({
+      vue: "Vue",
+    }),
+    // 动态生成html script
+    htmlPlugin({
+      headScripts: [
+        {
+          defer: true,
+          src: "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.45/vue.runtime.global.prod.min.js",
+        },
+      ],
+    }),
   ],
   // 解析
   resolve: {
@@ -97,6 +112,10 @@ export default defineConfig({
         // entryFileNames:"[name]-[hash].js",
       },
     },
+  },
+  // 依赖构建优化
+  optimizeDeps: {
+    include: ["vue"],
   },
 });
 console.log(__dirname);
