@@ -1,0 +1,5 @@
+(()=>{
+    const p = window.document.createElement("p");
+    p.innerHTML = 'source';
+    window.document.getElementById("app").appendChild(p);
+})()
