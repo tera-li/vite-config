@@ -35,6 +35,7 @@ export default defineConfig({
       deleteOriginalAssets: false,
       threshold: 1000,
     }),
+    // 自定义插件
     customPlugin(),
     // 动态生成html script
     htmlPlugin({
